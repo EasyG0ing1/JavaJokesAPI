@@ -61,6 +61,6 @@ class Flags {
         sb.append(racist ?      "racist," : "");
         sb.append(sexist ?      "sexist," : "");
         sb.append(explicit ?    "explicit," : "");
-        return sb.toString().substring(0, sb.length() - 1);
+        return sb.substring(0, sb.length() - 1);
     }
 }

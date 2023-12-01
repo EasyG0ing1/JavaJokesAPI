@@ -26,28 +26,28 @@ public class Jokes {
     private final Set<Category> categorySet;
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private final String baseURL = "https://v2.jokeapi.dev/joke/%s?%s&%s&%s&%s&%s&%s%s";
-    private PossibleLanguage possibleLanguage;
+    private final PossibleLanguage possibleLanguage;
     private int amount;
     private Conn conn = new Conn();
     private Format FORMAT;
     private Type TYPE;
     private String url;
     private String language;
-    private String contains;
+    private final String contains;
     private String categories;
     private String blacklistFlags;
     private String type;
     private String amountString;
     private String format;
-    private String safeMode;
+    private final String safeMode;
     private String idRange;
     private String serverResponse;
     private JokeError jokeError;
 
     public static class Builder {
         private Language language                 = ENGLISH;
-        private Set<Flag> blackListSet            = new HashSet<>();
-        private Set<Category> categorySet         = new HashSet<>();
+        private final Set<Flag> blackListSet            = new HashSet<>();
+        private final Set<Category> categorySet         = new HashSet<>();
         private Format format                     = JSON;
         private Type type                         = ANY;
         private String safeMode = "";
@@ -200,7 +200,7 @@ public class Jokes {
     }
 
     public String getAny() {
-        String response = "";
+        String response;
         Joke joke = getJoke();
         if(joke.isError()) {
             if(joke.isServerError()) {
@@ -225,8 +225,7 @@ public class Jokes {
         setURL();
         conn = new Conn();
         serverResponse = conn.get(url);
-        Joke joke = gson.fromJson(serverResponse, Joke.class);
-        return joke;
+        return gson.fromJson(serverResponse, Joke.class);
     }
 
     public String getJSON() {
@@ -258,8 +257,7 @@ public class Jokes {
             return gson.fromJson(json, Joke.class);
         }
         else {
-            Joke joke = new Joke(Response.getMessage(conn.getResponseCode()));
-            return joke;
+            return new Joke(Response.getMessage(conn.getResponseCode()));
         }
     }
 

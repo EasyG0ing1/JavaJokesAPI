@@ -26,8 +26,8 @@ public class SendJoke {
     private final String delivery;
 
     public static class Builder {
-        private Category category;
-        private Type type;
+        private final Category category;
+        private final Type type;
         private ArrayList<Flag> flags = new ArrayList<>();
         private Language lang = ENGLISH;
         private String joke = "";
