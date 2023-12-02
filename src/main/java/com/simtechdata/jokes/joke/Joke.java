@@ -25,7 +25,7 @@ public class Joke {
     private String delivery;
 
     public boolean isSingle() {
-        return type.equals(Type.ONEPART.code());
+        return type.equals(Type.SINGLE.code());
     }
 
     public boolean isTwoPart() {

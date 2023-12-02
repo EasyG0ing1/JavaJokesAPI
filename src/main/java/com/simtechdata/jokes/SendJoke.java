@@ -4,8 +4,7 @@ import com.simtechdata.jokes.enums.Category;
 import com.simtechdata.jokes.enums.Flag;
 import com.simtechdata.jokes.enums.Language;
 import com.simtechdata.jokes.enums.Type;
-import com.simtechdata.jokes.joke.SubmitOnePart;
-import com.simtechdata.jokes.joke.SubmitTwoPart;
+import com.simtechdata.jokes.joke.Submit;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,6 +23,7 @@ public class SendJoke {
     private final String joke;
     private final String setup;
     private final String delivery;
+    private boolean dryRun;
 
     public static class Builder {
         private final Category category;
@@ -80,33 +80,59 @@ public class SendJoke {
         this.joke     = build.joke;
         this.setup    = build.setup;
         this.delivery = build.delivery;
-
     }
 
     private final String LF = System.getProperty("line.separator");
     public String send(boolean dryRun) {
+        this.dryRun = dryRun;
         String message = "";
         if(this.type.equals(ANY)) {
             message = "- Joke type must be either Type.SINGLE or Type.TWOPART" + LF;
         }
         if(this.type.equals(TWOPART) && this.setup.isEmpty()) {
-            message += "- The setup for a Type.TWOPART joke cannot be blank" + LF;
+            message += "- The setup field for a Type.TWOPART joke cannot be blank" + LF;
         }
         if(this.type.equals(TWOPART) && this.delivery.isEmpty()) {
-            message += "- The delivery for a Type.TWOPART joke cannot be blank" + LF;
+            message += "- The delivery field for a Type.TWOPART joke cannot be blank" + LF;
         }
-        if(this.type.equals(ONEPART) && this.joke.isEmpty()) {
-            message += "- The joke for a Type.SINGLE joke cannot be blank" + LF;
+        if(this.type.equals(SINGLE) && this.joke.isEmpty()) {
+            message += "- The joke field for a Type.SINGLE joke cannot be blank" + LF;
         }
         if(!message.isEmpty()) {
             return message;
         }
-        if(type.equals(TWOPART)) {
-            return new SubmitTwoPart(category, type, setup, delivery, flags, lang).submit(dryRun);
-        }
-        else {
-            return new SubmitOnePart(category, type, joke, flags, lang).submit(dryRun);
-        }
+        return new Submit(this).send();
     }
 
+    public String getCategory() {
+        return category.code();
+    }
+
+    public String getType() {
+        return type.code();
+    }
+
+    public ArrayList<Flag> getFlags() {
+        return flags;
+    }
+
+    public String getLang() {
+        return lang.code();
+    }
+
+    public String getJoke() {
+        return joke;
+    }
+
+    public String getSetup() {
+        return setup;
+    }
+
+    public String getDelivery() {
+        return delivery;
+    }
+
+    public boolean isDryRun() {
+        return dryRun;
+    }
 }

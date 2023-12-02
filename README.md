@@ -8,21 +8,21 @@ If you're using Maven
 <dependency>
     <groupId>com.simtechdata</groupId>
     <artifactId>JokeAPI</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
 </dependency>
 ```
 
 Or, if using Gradle to build, add this to your Gradle build file
 
 ```groovy
-compile group: 'com.simtechdata', name: 'JokeAPI', version: 1.0.0
+compile group: 'com.simtechdata', name: 'JokeAPI', version: 1.1.0
 ```
 
 You can even use it from a Groovy script!
 
 ```groovy
 @Grapes(
-  @Grab(group='com.simtechdata', module='JokeAPI', version=1.0.0)
+  @Grab(group='com.simtechdata', module='JokeAPI', version=1.1.0)
 )
 ```
 
@@ -161,5 +161,24 @@ if (joke.contains("error")) {
 }
 ```
 
+### Submitting Jokes
+Yopu can submit jokes by invoking the `SendJoke` class. Here is an example
+```Java
+SendJoke sendJoke = new SendJoke.Builder(MISC, Type.TWOPART, null)
+        .twoPartSetup("Why did the chicken cross the road?")
+        .twoPartDelivery("To get to the other side.")
+        .build();
+String response = sendJoke.send(true);
+System.out.println(response);
+```
+The Builder constructors required arguments are:
+`Category, Type, flags`
+The Category and Type are non-negotiable requirements before a joke can be submitted. However, the flags are not, but I left them in the constructor to remind you to consider whether or not you need to flag the joke as having any kind of content that would be considered not OK for children or that it may contain other offensive content where you are required to say as much when you submit a joke. If you pass `null` into the flags argument, the API will simply not mark any flags.
+
+Also, when you select Type.TWOPART, you need to also use fill in the setup and delivery, where as if you chose Type.SINGLE, you only need to fill in the joke method of the Builder class.
+
+The send method has a boolean argument called `dryRun`. This is a good way to get some feedback from the server on your joke before you submit it permanently. The dryRun option will go through the motions of submitting the joke and the server will receive it and comment on it accordingly, but it will not commit the joke to its database.
 ### Release Notes
+* 1.1.0 - Finalized the SendJoke class 
+
 * 1.0.0 - Initial Release

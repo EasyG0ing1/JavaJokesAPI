@@ -190,7 +190,7 @@ public class Jokes {
     }
 
     public String getOnePart() {
-        TYPE = ONEPART;
+        TYPE = SINGLE;
         Joke joke = getJsonJoke();
         if(joke.isError()) {
             jokeError = gson.fromJson(serverResponse, JokeError.class);
