@@ -1,14 +1,6 @@
 package com.simtechdata.jokes.joke;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.simtechdata.jokes.SendJoke;
-import com.simtechdata.jokes.enums.Category;
-import com.simtechdata.jokes.enums.Flag;
-import com.simtechdata.jokes.enums.Language;
-import com.simtechdata.jokes.enums.Type;
-
-import java.util.ArrayList;
 
 class SubmitTwoPart {
     private final int formatVersion = 3;
